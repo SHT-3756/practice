@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 // useRef 로 컴포넌트 안의 변수 만들기
 
 /* useRef Hook은 DOM 선택 용도 이외에 다른 용도가 한가지 더 있다.
@@ -19,6 +19,10 @@ useRef 로 관리하고있는 변수는 설정 후 바로 조회 가능하다.
 */
 /*추가: onRemove , 배열에서 항목 제거하기, onToggle 로 기본 active true인 것을 초록색으로 표시하고 클릭하면 해당하는 토글의 색도 초록으로 변하게 구성*/
 function User({ user1, onRemove, onToggle }) {
+  useEffect(() => {
+    console.log(user1);
+    
+  });
   return (
     <div>
       <b style={{ cursor: "pointer", color: user1.active ? 'green' : 'black' }} onClick={()=> onToggle(user1.id)}>

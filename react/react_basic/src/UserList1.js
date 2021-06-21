@@ -17,18 +17,19 @@ useRef 로 관리하고있는 변수는 설정 후 바로 조회 가능하다.
 이 배열을 App 에서 선언하고 UserList에게 props로 전달을 해주겠다.
  
 */
-function User({ user1 }) {
+function User({ user1, onRemove }) {
     return (
         <div>
             <b>{user1.username}</b> <span>({user1.email})</span>
+            <button onClick={()=> onRemove(user1.id)}>삭제</button>
         </div>
     )
 }
-function UserList1({AProps}) {
+function UserList1({AProps, onRemove}) {
   return (
     <div>
       {AProps.map((Bprops) => (
-        <User user1={Bprops} key={Bprops.id} />
+        <User user1={Bprops} key={Bprops.id} onRemove={onRemove}/>
       ))}
     </div>
   );

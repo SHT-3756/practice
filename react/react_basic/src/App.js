@@ -62,6 +62,12 @@ function App() {
     });
     nextId.current += 1;
   };
+
+  const onRemove = id => {
+    // user.id 가 파라미터로 일치하지 않는 원소들만 추출해서 새로운 배열만들고
+    //  = user.id 가 id 인 것을 제거한다.
+    setMembers(members.filter(user => user.id !== id));
+  }
   return (
     <>
       <Wrapper>
@@ -86,7 +92,7 @@ function App() {
         onCreate={onCreate}
       />
 
-      <UserList1 AProps={members} />
+      <UserList1 AProps={members}  onRemove={onRemove}/>
       <hr />
     </>
   );

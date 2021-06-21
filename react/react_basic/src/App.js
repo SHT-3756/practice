@@ -31,16 +31,19 @@ function App() {
       id: 1,
       username: "SHT",
       email: "SHT@naver.com",
+      active: true
     },
     {
       id: 2,
       username: "AAA",
       email: "AAA@naver.com",
+      active: false
     },
     {
       id: 3,
       username: "BBB",
       email: "BBB@naver.com",
+      active: false
     },
   ]);
 
@@ -67,6 +70,13 @@ function App() {
     // user.id 가 파라미터로 일치하지 않는 원소들만 추출해서 새로운 배열만들고
     //  = user.id 가 id 인 것을 제거한다.
     setMembers(members.filter(user => user.id !== id));
+  };
+
+  const onToggle = id => {
+    setMembers(
+      members.map(user => 
+        user.id === id ? { ...user, active: !user.active } : user )
+    )
   }
   return (
     <>
@@ -92,7 +102,7 @@ function App() {
         onCreate={onCreate}
       />
 
-      <UserList1 AProps={members}  onRemove={onRemove}/>
+      <UserList1 AProps={members}  onRemove={onRemove} onToggle={onToggle}/>
       <hr />
     </>
   );

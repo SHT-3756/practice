@@ -21,8 +21,7 @@ useRef 로 관리하고있는 변수는 설정 후 바로 조회 가능하다.
 function User({ user1, onRemove, onToggle }) {
   useEffect(() => {
     console.log(user1);
-    
-  });
+  }, [user1]);
   return (
     <div>
       <b style={{ cursor: "pointer", color: user1.active ? 'green' : 'black' }} onClick={()=> onToggle(user1.id)}>

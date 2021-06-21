@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 // import './App.css';
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import Hello from "./Hello";
 import Wrapper from "./Wrapper";
 import Counter from "./Counter";
@@ -11,6 +11,10 @@ import UserList from "./UserList";
 import UserList1 from "./UserList1";
 import CreateUser from "./CreateUser";
 
+function countActiveUsers(members) {
+  console.log('활성 사용자 수 세는중...');
+  return members.filter(user => user.active).length;
+}
 function App() {
   // CreateUser 컴포넌트에서 필요한 props 준비해준것
   const [inputs, setInputs] = useState({
@@ -76,8 +80,11 @@ function App() {
     setMembers(
       members.map(user => 
         user.id === id ? { ...user, active: !user.active } : user )
-    )
-  }
+    );
+  };
+  
+  const count = useMemo(()=> countActiveUsers(members), [members]); 
+  
   return (
     <>
       <Wrapper>
@@ -103,6 +110,7 @@ function App() {
       />
 
       <UserList1 AProps={members}  onRemove={onRemove} onToggle={onToggle}/>
+      <div>활성사용자 수 : {count}</div>
       <hr />
     </>
   );

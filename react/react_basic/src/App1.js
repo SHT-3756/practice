@@ -15,7 +15,6 @@ import React, { useRef, useReducer, useMemo, useCallback } from "react";
 import UserList1 from "./UserList1";
 import CreateUser from "./CreateUser";
 import Counter1 from "./Counter1"; 
-import App from "./App";
 
 function countActiveUsers(members) {
   console.log('활성 사용자 수 세는중...');

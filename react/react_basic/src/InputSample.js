@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+// Input 상태 관리 해주기
 function InputSample() {
   const [text, setText] = useState("");
 

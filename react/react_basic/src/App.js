@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 // import './App.css';
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useCallback } from "react";
 import Hello from "./Hello";
 import Wrapper from "./Wrapper";
 import Counter from "./Counter";
@@ -10,6 +10,7 @@ import InputSample2 from "./InputSample2";
 import UserList from "./UserList";
 import UserList1 from "./UserList1";
 import CreateUser from "./CreateUser";
+import Counter1 from "./Counter1"; 
 
 function countActiveUsers(members) {
   console.log('활성 사용자 수 세는중...');
@@ -22,13 +23,15 @@ function App() {
     email: "",
   });
   const { username, email } = inputs;
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+
+  const onChange = useCallback (
+    e => {
+      const { name, value } = e.target;
+      setInputs(inputs => ({
+        ...inputs,
+        [name]: value,
+      }));
+    }, []);
   // UserList1.js 를 위한 변수
   const [members, setMembers] = useState([
     {
@@ -52,7 +55,7 @@ function App() {
   ]);
 
   const nextId = useRef(4);
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const member = {
       id: nextId.current,
       username,
@@ -68,20 +71,22 @@ function App() {
       email: "",
     });
     nextId.current += 1;
-  };
+  }, [members ,username, email ]);
 
-  const onRemove = id => {
+  const onRemove = useCallback(
+    id => {
     // user.id 가 파라미터로 일치하지 않는 원소들만 추출해서 새로운 배열만들고
     //  = user.id 가 id 인 것을 제거한다.
     setMembers(members.filter(user => user.id !== id));
-  };
+  },[members]);
 
-  const onToggle = id => {
-    setMembers(
+  const onToggle = useCallback(
+    id => {
+    setMembers(members =>
       members.map(user => 
         user.id === id ? { ...user, active: !user.active } : user )
     );
-  };
+  },[]);
   
   const count = useMemo(()=> countActiveUsers(members), [members]); 
   
@@ -108,10 +113,10 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-
       <UserList1 AProps={members}  onRemove={onRemove} onToggle={onToggle}/>
       <div>활성사용자 수 : {count}</div>
       <hr />
+      <Counter1 />
     </>
   );
 }

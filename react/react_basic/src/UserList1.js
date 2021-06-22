@@ -18,7 +18,7 @@ useRef 로 관리하고있는 변수는 설정 후 바로 조회 가능하다.
  
 */
 /*추가: onRemove , 배열에서 항목 제거하기, onToggle 로 기본 active true인 것을 초록색으로 표시하고 클릭하면 해당하는 토글의 색도 초록으로 변하게 구성*/
-function User({ user1, onRemove, onToggle }) {
+const User = React.memo(function User({ user1, onRemove, onToggle }) {
   useEffect(() => {
     console.log(user1);
   }, [user1]);
@@ -31,7 +31,8 @@ function User({ user1, onRemove, onToggle }) {
       <button onClick={() => onRemove(user1.id)}>삭제</button>
     </div>
   );
-}
+});
+
 function UserList1({ AProps, onRemove, onToggle }) {
   return (
     <div>
@@ -42,4 +43,4 @@ function UserList1({ AProps, onRemove, onToggle }) {
   );
 }
 
-export default UserList1;
+export default React.memo(UserList1);

@@ -4,7 +4,9 @@ import './index.css';
 // import App from './App';
 // import App1 from './App1';
 // import App2 from './App2';
-import App3 from './App3';
+// import App3 from './App3';
+// import App4 from './immer/App4';
+import App5 from './practice/App5';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -12,8 +14,9 @@ ReactDOM.render(
     {/* <App /> */}
     {/* <App1 /> */}
     {/* <App2 /> */}
-    <App3 />
-
+    {/* <App3 /> */}
+    {/* <App4 /> */}
+    <App5 />
   </React.StrictMode>,
   document.getElementById('root')
 );

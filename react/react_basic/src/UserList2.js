@@ -1,16 +1,16 @@
-import React from "react";
+import React,{useContext} from "react";
 import { UserDispatch } from './App3';
 
 // Context API 사용
 const User = React.memo(function User({ user1 }) {
-  const dispatch = useDispatch(UserDispatch);
+  const dispatch = useContext(UserDispatch);
 
   return (
     <div>
       <b
         style={{ cursor: "pointer", color: user1.active ? "green" : "black" }}
         onClick={() => {
-          dispatch({ type: 'TOGGLE_USER, id: user1.id'});
+          dispatch({ type: 'TOGGLE_USER', id: user1.id});
         }}
       >
         {user1.username}
@@ -24,7 +24,7 @@ const User = React.memo(function User({ user1 }) {
   );
 });
 
-function UserList1({ AProps }) {
+function UserList2({ AProps }) {
   return (
     <div>
       {AProps.map((Bprops) => (
@@ -34,4 +34,4 @@ function UserList1({ AProps }) {
   );
 }
 
-export default React.memo(UserList1);
+export default React.memo(UserList2);

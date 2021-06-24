@@ -1,11 +1,11 @@
 import React, { useReducer, useMemo } from 'react';
 import UserList2 from './UserList2';
-import CreateUser2 from './CreateUser';
+import CreateUser2 from './CreateUser2';
 
 // Context API 를 사용해 전역 상태 관리
 function countActiveUsers(members) {
     console.log('활성 사용자 수 세는중...');
-    return members.filter(user => user.active).length;
+    return members.filter(member => member.active).length;
 }
 const initialState = {
     members: [
@@ -35,17 +35,17 @@ function reducer(state, action) {
         
         case 'CREATE_USER':
             return {
-                members: state.members.concat(action.user)
+                members: state.members.concat(action.member)
             };
         case 'TOGGLE_USER':
             return {
-                members: state.members.map(user => 
-                    user.id === action.id ? { ...user, active: !user.aactive } : user 
+                members: state.members.map(member => 
+                    member.id === action.id ? { ...member, active: !member.active } : member 
                     )
             };
         case 'REMOVE_USER':
             return {
-                members: state.members.filter(user => user.id !== action.id)
+                members: state.members.filter(member => member.id !== action.id)
             };
         default:
             return state;

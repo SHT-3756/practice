@@ -1,12 +1,13 @@
-import React, { useRef, useContext } from "react";
-import useInputs from "./hooks/useInputs";
-import { UserDispatch } from './App3';
-/* 숙제 */
-const CreateUser2 = () => {
+import React, { useRef, useContext } from 'react';
+import useInputs from './useInputs';
+import { UserDispatch } from './App5';
+
+const CreateUser = () => {
   const [{ username, email }, onChange, reset] = useInputs({
     username: '',
     email: ''
   });
+
   const nextId = useRef(4);
   const dispatch = useContext(UserDispatch);
 
@@ -22,7 +23,7 @@ const CreateUser2 = () => {
     reset();
     nextId.current += 1;
   };
-  
+
   return (
     <div>
       <input
@@ -40,6 +41,6 @@ const CreateUser2 = () => {
       <button onClick={onCreate}>등록</button>
     </div>
   );
-}
+};
 
-export default React.memo(CreateUser2);
+export default React.memo(CreateUser);

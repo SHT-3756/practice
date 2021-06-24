@@ -7,21 +7,22 @@
 3. 에러를 방지하는 방법을 알아보자!
  */
 import React from 'react'
-import User from './User';
+import User from './User'
 function App6() {
-    const user = [{
-        id: 1,
-        username: 'SHT'
-    },
-    {
-        id: 2,
-        username: 'SHT2'
-    }
-
-];
+    const user = [
+        {
+            id: 1,
+            username: 'SHT',
+        },
+        {
+            id: 2,
+            username: 'SHT2',
+        },
+    ]
     return (
         <div>
-            <User user={user}/>      
+            <User user={user} />
+            <p>와우</p>
         </div>
     )
 }

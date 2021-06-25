@@ -1,6 +1,7 @@
-import React, { useReducer, createContext, useContext, useRef } from "react";
 // 리듀서 생성
 /* useReducer을 사용해 상태 관리하는 컴포넌트를 만들었다. */
+import React, { useReducer, createContext, useContext, useRef } from "react";
+
 const initialTodos = [
   {
     id: 1,
@@ -46,6 +47,7 @@ const TodoNextIdContext = createContext();
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(todoReducer, initialTodos);
   const nextId = useRef(5);
+
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
@@ -57,7 +59,6 @@ export function TodoProvider({ children }) {
   );
 }
 
-// 커스텀 훅 만들기
 export function useTodoState() {
   const context = useContext(TodoStateContext);
   if (!context) {
@@ -65,13 +66,15 @@ export function useTodoState() {
   }
   return context;
 }
+
 export function useTodoDispatch() {
   const context = useContext(TodoDispatchContext);
   if (!context) {
-    throw new Error("Cannot find TodoDispatch");
+    throw new Error("Cannot find TodoProvider");
   }
   return context;
 }
+
 export function useTodoNextId() {
   const context = useContext(TodoNextIdContext);
   if (!context) {

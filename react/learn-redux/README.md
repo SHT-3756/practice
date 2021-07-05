@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# 리덕스 사용법 공부
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 3개의 규칙
 
-## Available Scripts
+1. 하나의 애플리케이션에는 하나의 스토어가 있다.
+   - 여러개 스토어 사용가능하지만 `하나만 사용하기를 권장한다.` 특정 업데이트가 너무 빈번하게 일어나거나, 애플리케이션 특정 부분을 완전히 분리시키게 될 때 여러개의 스토어 만들수있지만 그렇게 되면 개발도구를 활용하지 못하게 된다.
+2. 상태는 읽기 전용이다.
+   - 리액트에서는 state를 업데이트 할 때 setState를 사용하고, 배열 업데이트는 직접 push 가 아닌 concat함수를 사용해서 새로운 배열을 만들어서 교체하는 방식으로 한다. 엄청 깊은 구조로 되있는 객체업데이트 할 때도 기존 객체 그대로 두고 `Object.assign` 이나 `spread 연산자 (...)`를 사용한다.
+   - 불변성을 유지하는 이유는 ?? 내부적으로 데이터 변경되는 것을 감지하기 위해서이다.[shalow equality](https://redux.js.org/faq/immutable-data#how-redux-uses-shallow-checking) 이를 통해 깊숙히 비교하는게 아니라 겉핥기식으로 비교를 해 좋은 성능을 유지할 수 있다.
+3. 변화를 일으키는 함수, 리듀서는 순수한 함수여야 한다.
+   - 리듀서 함수는 이전 상태와, 액션 객체를 파라미터로 받는다.
+   - 이전 상태는 절대로 건들이지 않고, 변화를 일으킨 새로운 상태의 객체를 만들어서 반환한다.
+   - 똑같은 파라미터로 호출된 리듀서 함수는 `언제나` 똑같은 결과값을 반환해야만 한다.
 
-In the project directory, you can run:
+# 리덕스 사용 준비
 
-### `yarn start`
+1. 리덕스 설치
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+    yarn add redux
+    npm i redux
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. 리덕스 필수 코스
+   - 리덕스 관리 상태 정의
+   - 액션 타입 정의
+   - 액션 생성함수 정의 (`type은 필수`, 추가적인 필드는 `마음대로` 넣을수 있다)
+   - 리듀서 만들기 (위의 액션 생성함수들을 통해 만들어진 객체 참조해서 새로운 상태를 만드는 함수를 만든다. 주의 : 리듀서에서는 `불변성`을 `꼭` 지켜야한다.)
+3. 스토어 만들기
+   - 스토어 안의 상태는 액션이 디스패치됨에 따라 업데이트가 된다.
+   - console.log(store.getState()); 로 현재 상태 조회 가능하다.
 
-### `yarn test`
+# 리덕스 모듈 만들기
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+리덕스를 사용할때 파일들을 각각 다른 파일에 저장할 수 있는데, `꼭 분리할 필요없다.` 오히려 서로 다른 디렉토리에 분리가 되어있으면 개발하는데 불편하다. 그래서 리듀서와 액션관련 코드를 하의 파일에 몰아서 작성하는데 이 방법을 `Ducks 패턴` 이라고 부른다.
 
-### `yarn build`
+1. 필요한 리덕스 모듈을 만든다.
+   - todos 모듈, counter 모듈 (주의: `액션타입을 선언할 때는 앞에 접두사를 추가해 겹치는 걸 미리방지, 알기 쉽게 해준다. `)
+2. 루트 리듀서 만들기
+   - 두가지의 리덕스 모듈을 만들었는데 하나로 합치는 방법을 사용한다. 그 합친 리듀서를 `루트 리듀서`라 부른다.
+   - 합치는 작업은 redux의 내장함수 `combineReducers`함수를 사용한다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# 리액트 프로젝트에 리덕스 적용하기
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. 리덕스 적요 할 때는 라이브러리를 설치해야한다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+    yarn add react-redux
+    npm i react-redux
+```
 
-### `yarn eject`
+2. App.js 에 Privider을 import 해주고 <App /> 를 감싸준다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```javascript
+...
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules';
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const store = createStore(rootReduer); //스토어 만들어준다.
+    ReactOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>,
+        document.getElementById('root')
+    )
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `provider에 store`을 넣어서 App을 감싸면 우리가 어떤 컴포넌트를 렌더링하더라도 `리덕스 스토어에 접근`이 `가능`하다.

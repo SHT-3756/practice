@@ -6,7 +6,7 @@
    - 여러개 스토어 사용가능하지만 `하나만 사용하기를 권장한다.` 특정 업데이트가 너무 빈번하게 일어나거나, 애플리케이션 특정 부분을 완전히 분리시키게 될 때 여러개의 스토어 만들수있지만 그렇게 되면 개발도구를 활용하지 못하게 된다.
 2. 상태는 읽기 전용이다.
    - 리액트에서는 state를 업데이트 할 때 setState를 사용하고, 배열 업데이트는 직접 push 가 아닌 concat함수를 사용해서 새로운 배열을 만들어서 교체하는 방식으로 한다. 엄청 깊은 구조로 되있는 객체업데이트 할 때도 기존 객체 그대로 두고 `Object.assign` 이나 `spread 연산자 (...)`를 사용한다.
-   - 불변성을 유지하는 이유는 ?? 내부적으로 데이터 변경되는 것을 감지하기 위해서이다.[shalow equality](https://redux.js.org/faq/immutable-data#how-redux-uses-shallow-checking) 이를 통해 깊숙히 비교하는게 아니라 겉핥기식으로 비교를 해 좋은 성능을 유지할 수 있다.
+   - 불변성을 유지하는 이유는 ?? 내부적으로 데이터 변경되는 것을 감지하기 위해서이다. [shalow equality](https://redux.js.org/faq/immutable-data#how-redux-uses-shallow-checking) 이를 통해 깊숙히 비교하는게 아니라 겉핥기식으로 비교를 해 좋은 성능을 유지할 수 있다.
 3. 변화를 일으키는 함수, 리듀서는 순수한 함수여야 한다.
    - 리듀서 함수는 이전 상태와, 액션 객체를 파라미터로 받는다.
    - 이전 상태는 절대로 건들이지 않고, 변화를 일으킨 새로운 상태의 객체를 만들어서 반환한다.
@@ -49,7 +49,7 @@
     npm i react-redux
 ```
 
-2. App.js 에 Privider을 import 해주고 <App /> 를 감싸준다.
+2. App.js 에 Privider을 import 해주고 App 컴포넌트를 감싸준다.
 
 ```javascript
 ...

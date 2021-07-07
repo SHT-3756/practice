@@ -4,6 +4,13 @@ const DECREASE = "DECREASE";
 //액션 생성 함수
 export const increase = () => ({ type: "INCREASE" });
 export const decrease = () => ({ type: "DECREASE" });
+//getState를 쓰지않는다면 파라미터를 받아올 필요없다.
+export const increaseAsync = () => (dispatch) => {
+  setTimeout(() => dispatch(increase()), 1000);
+};
+export const decreaseAsync = () => (dispatch) => {
+  setTimeout(() => dispatch(decrease()), 1000);
+};
 //초기값
 const initialState = 0;
 

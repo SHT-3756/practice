@@ -155,3 +155,82 @@ function middleware(store) {
       composeWithDevTools(applyMiddleware(applyMiddleware(logger)));
   );
   ```
+
+# redux-thunk
+
+리덕스에서 비동기 작업을 할때 가장 많이 사용하는 미들웨어이다.
+redux-thunk를 사용하면 액션객체가 아닌 함수를 디스패치 할 수 있다.
+
+- 그 전 미들웨어 만들때 사용한 코드
+  ```javascript
+  const thunk = (sotre) => (next) => (action) =>
+    typeof action == "function"
+      ? action(store.dispatch, sotre.getState)
+      : next(action);
+  ```
+- redux-thunk 코드, 실제 로 많이 비슷하다.
+
+  ```javascript
+  const getCommits = () => (dispatch, getState) => {
+    // 이 안에서는 액션을 dispatch 할 수도있고
+    // getState 를 사용해서 현재 상태도 조회할 수 있다.
+    const id = getState().post.activeId;
+
+    //요청이 시작했음을 알리는 액션
+    dispatch({ type: "GET_COMMITS" });
+
+    //댓글을 조회하는 프로미스를 리턴하는 getCommits 가 있다고 가정해보자
+    api
+      .getComments(id) //요청하고
+      .then((comments) =>
+        dispatch({ type: "GET_COMMENTS_SUCCESS", id, comments }) //성공시
+          .catch(
+            (e) => dispatch({ type: "GET_COMMENTS_ERROR", error: e }) //실패시
+          )
+      );
+  };
+  ```
+
+  1. 라이브러리 설치
+
+  ```bash
+   yarn add redux-thunk
+  ```
+
+  2.  적용하기
+
+  ```javascript
+  //index.js
+  ...
+  import ReduxThunk from "redux-thunk";
+  const stroe = createStore(rootReducer,composeWithDevTools(applyMiddleware(ReduxThunk, logger)));
+  ...
+  ```
+
+  3. redux-thunk 는 함수도 디스패치할수 있는데, 카운터 딜레이 함수 만들어서 적용해보자
+
+  ```javascript
+   //modules/counter.js
+   ...
+   //추가해주고, thunk함수인 increaseAsync, decreaseAsync를 만들었다.
+   export const increaseAsync = () => dispatch=> {
+      setTimeout(()=> dispatch(increase()), 1000);
+   }
+   export const decreaseAsync = () => dispatch=> {
+      setTimeout(()=> dispatch(decrease()), 1000);
+   }
+   ...
+  ```
+
+  ```javascript
+   //containers/CounterContainer.js
+   import {increaseAsync, decreaseAsync} from '../modules/counter';
+   ...
+   const onIncrease = () => {
+      dispatch(increaseAsync());
+   }
+   const onDecrease = () => {
+      dispatch(decreaseAsync());
+   }
+   ...
+  ```

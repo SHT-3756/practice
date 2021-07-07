@@ -1,0 +1,71 @@
+# 리덕스 미들웨어 공부하기
+
+## 리덕스 프로젝트 준비
+
+1. 라이브러리 설치
+
+```bash
+    yarn add redux react-redux
+```
+
+2. 리덕스 모듈 준비하기
+   `Ducks 패턴` 사용(액션타입, 액션 생성함수, 리듀서를 한파일에 작성하는 방법)
+   원래 액션이름이 중복 될까봐 접두사를 작성해주는데 이번에는 그럴 이유가 없으니 생략해주겠다.
+   ```javascript
+   //액션 타입(원래 작성법)
+   const INCREASE = "counter/INCREASE";
+   const DECREASE = "counter/DECREASE";
+   ```
+3. 루트 리듀서 만들어주기
+   `루트 리듀서`는 리듀서가 두개 이상일 때에 하나로 합쳐서 사용하기 위한 편의 방법 redux의 내장함수 `combineReducers` 를 사용하면 된다.
+
+4. 프로젝트에 리덕스 적용해주기
+
+   ```javascript
+       //index.js
+       ...
+       import { createStore } from 'redux';
+       import { Provider } from 'react-redux';
+       import rootReducer from './modules';
+
+       const store = createStore(rootReducer);
+
+       ReactDOM.render(
+           <Provider store={store}>
+                <App />
+           <Provider>,
+           document.getElementsById('root')
+       );
+
+   ```
+
+5. `프리젠테이셔널` 컴포넌트 만들기
+   리덕스 스토어에 직접적으로 접근하지 `않고` 필요한 값 또는 함수를 `props로만` 받아와서 사용하는 컴포넌트이다.
+   `주로 UI를 선언`하는 것에 집중한다.
+
+6. `컨테이너` 컴포넌트 만들기
+   리덕스 `스토어의 상태를 조회`하거나, `액션을 디스패치` 할 수 있는 컴포넌트를 의미한다.
+   그리고 HTML태그들을 사용하지 `않고` 다른 `프리젠테이셔널 컴포넌트`들을 불러와서 사용한다.
+
+## 미들웨어 만들어보기
+
+실제 실무에서는 `리덕스 미들웨어`를 직접 만드는 일은 없지만 직접 만들어보고 어떤 역할인지 이해해보자!
+
+`미들웨어`는 결국 함수다. 함수를 연달아서 `두번 리턴하는 함수`
+
+```javascript
+function middleware(store) {
+  return function (next) {
+    return function (action) {
+      // 하고 싶은 작업...
+    };
+  };
+}
+```
+
+- 첫번째 store 는 리덕스 `스토어 인스턴스`이다, `dispatch`, `getState`, `subscribe` 내장함수들이 있다.
+
+- 두번째 next 는 액션을 `다음 미들웨어에 전달`하는 함수이다, `next(action)` 이런 헝태이고, 만약 `다음 미들웨어가 없다면` 리듀서에게 액션을 전달해준다.
+  만약, `next 를 호출하지 않는다면` 액션이 무시처리되어 리듀서에게 전달되지 않는다.
+
+- 세번째 action 은 현재 처리하고 있는 `액션 객체`이다.

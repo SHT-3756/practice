@@ -67,3 +67,35 @@ const store = createStore(rootReduer); //스토어 만들어준다.
 ```
 
 - `provider에 store`을 넣어서 App을 감싸면 우리가 어떤 컴포넌트를 렌더링하더라도 `리덕스 스토어에 접근`이 `가능`하다.
+
+# 프리젠테이셔널 컴포넌트와 컨데이너 컴포넌트 알아보기
+
+`프리젠테이셔널 컴포넌트란?` 리덕스 스토어에 직접적으로 접근하지 않고 `필요한 값 또는 함수를 props로만 받아 사용하는 컴포넌트`, 주로 UI를 선언하는 것에 집중한다.
+
+`컨테이너 컴포넌트란?` 리덕스 스토어의 상태를 조회하거나, 액션을 디스패치 할 수 있는 컴포넌트를 의미한다. `HTML 태그들을 사용하지 않고 다른 프리젠테이셔널 컴포넌트들을 불러와서 사용한다.`
+
+# 리덕스 개발자 도구 적용하기
+
+리덕스 개발자 도구를 사용한다면?  
+현재 스토어의 상태를 개발자 도구에서 조회할 수 있고 지금까지 어떤 액션들이 디스패치 되었는지, 액션에 따라 상태가 어떻게 변화했는지 확인 가능하다. 추가적으로 액션을 직접 디스패치도 가능하다.
+
+1. [크롬 웹스토어](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)에서 확장 프로그램을 설치해준다.
+   (참고로 [파이어폭스](https://addons.mozilla.org/en-US/firefox/addon/reduxdevtools/)도 가능하다.)
+2. 프로젝트에 [redux-devtools-extension](https://www.npmjs.com/package/redux-devtools-extension)을 설치해준다.
+
+```bash
+   yarn add redux-dev-tools-extenstion
+   npm i redux-dev-tools-extenstion
+```
+
+3. index.js 수정
+
+```javascript
+   ...
+   import { composeWithDevTools } from 'redux-devtools-extension';
+
+   const store = createStore(rootReducer, composeWithDevtools());
+   // composeWithDevtools 를 사용하여 리덕스 개발자 도구 활성화
+```
+
+4. `npm start`, 크롬 개발자 도구 Redux 탭 클릭 후 확인한다.

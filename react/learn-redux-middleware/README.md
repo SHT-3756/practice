@@ -69,3 +69,89 @@ function middleware(store) {
   만약, `next 를 호출하지 않는다면` 액션이 무시처리되어 리듀서에게 전달되지 않는다.
 
 - 세번째 action 은 현재 처리하고 있는 `액션 객체`이다.
+
+1.  미들웨어를 직접 작성해보고 이해하기
+
+    - middlewares/myLogger.js 를 만들고 index.js에 적용해보자.
+
+      ```javascript
+      //middlewares/myLogger.js
+      const myLogger = (store) => (next) => (action) => {
+        console.log(action);
+        const result = next(action);
+        return result;
+      };
+      export default myLogger;
+      ```
+
+      ```javascript
+      //index.js
+      ...
+      import myLogger from './middlewares/myLogger';
+
+      const store = createStore(rootReducer, applyMiddleware(myLogger));
+      ```
+
+    - 적용한 미들웨어를 수정해보자
+
+           ```javascript
+           ...
+           console.log('\t',store.getState());
+           ...
+           ```
+
+이렇게 미들웨어를 직접 만들어보면서 `객체와 상태를 로깅하는 작업`을 해보았다.
+리덕스 관련 값들을 콘솔에 로깅하는건 `직접 만드는 것보단 redux-logger라는 미들웨어를 사용`하는게 더욱 좋다.
+
+## redux-logger 와 DevTools 사용하기
+
+위에는 미들웨어를 직접 작성해봤지만, 위에거는 주석처리하고 라이브러리를 설치해서 사용해보자!
+
+1. 라이브러리 설치
+
+```bash
+   yarn add redux-logger
+```
+
+2. index.js 에 적용하기
+
+```javascript
+   ...
+   import logger from 'redux-logger';
+
+   const store = createStore(rootReducer, applyMiddleware(logger));
+   ...
+```
+
+1. Redux DevTools 사용하기
+   프로젝트에 리덕스 데브툴을 사용할 수 있게 만들어주는 라이브러리이다.
+   우리는 이 도구로 손쉽게 state안의 상태, action이 어떻게 실행되었나를 확인해볼 수 있다.
+
+- `메뉴얼적인 사용법`
+
+  ```javascript
+  import { createStore, applyMiddleware } from "redux";
+  import { composeWithDevTools } from "redux-devtools-extension";
+
+  const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(...middleware))
+  );
+  ```
+
+- 라이브러리 설치
+  ```bash
+     yarn add redux-devtools-extension
+  ```
+- index.js 에 적용하기
+
+  ```javascript
+     ...
+     import logger from 'redux-logger';
+     import {composeWithDevTools} from 'redux-devtools-extension';
+
+     const store = createStore(
+      reducer,
+      composeWithDevTools(applyMiddleware(applyMiddleware(logger)));
+  );
+  ```

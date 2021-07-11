@@ -18,7 +18,12 @@ const customHistory = createBrowserHistory();
 const store = createStore(
   rootReducer,
   //logger 를 사용하는 경우, logger가 가장 마지막으로 와야한다.
-  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+  composeWithDevTools(
+    applyMiddleware(
+      ReduxThunk.withExtraArgument({ history: customHistory }),
+      logger
+    )
+  )
 ); //여러개의 미들웨어 적용가능하다.(myLogger, logger)
 
 ReactDOM.render(

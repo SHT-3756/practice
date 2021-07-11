@@ -1,20 +1,32 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPost } from "../modules/posts";
+import { getPost, goToHome } from "../modules/posts";
 import Post from "../components/Post";
 
 function PostContainer({ postId }) {
-  const { data, loading, error } = useSelector((state) => state.posts.post);
-  const dispacth = useDispatch();
+  const { data, loading, error } = useSelector(
+    (state) => state.posts.post[postId]
+  ) || {
+    loading: false,
+    data: null,
+    error: null,
+  }; // 비구조화 할당이 오류나지 않도록, 아예 데이터가 존재하지 않을 때가 있으므로,
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispacth(getPost(postId));
-  }, [postId, dispacth]);
+    dispatch(getPost(postId));
+  }, [postId, dispatch]);
 
-  if (loading) return <div>로딩중...</div>;
+  if (loading && !data) return <div>로딩중...</div>;
   if (error) return <div>에러 발생!</div>;
   if (!data) return null;
-  return <Post post={data} />;
+  return (
+    <>
+      <button onClick={() => dispatch(goToHome())}>홈으로 이동</button>
+      <Post post={data} />
+    </>
+  );
 }
 
 export default PostContainer;

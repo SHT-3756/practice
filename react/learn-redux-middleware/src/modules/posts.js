@@ -3,6 +3,8 @@ import {
   createPromiseThunk,
   reducerUtils,
   handleAsyncActions,
+  createPromiseThunkById,
+  handleAsyncActionsById,
 } from "../lib/asyncUtils";
 
 /* 액션 타입 */
@@ -19,8 +21,7 @@ const GET_POST_ERROR = "GET_POST_ERROR";
 
 // 아주 쉽게 thunk 함수를 만들 수 있게 되었습니다.
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts);
-export const getPost = createPromiseThunk(GET_POST, postsAPI.getPostById);
-// 3번째 인자를 사용하면 withExtraArgument 에서 넣어준 값들을 사용 할 수 있다.
+export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById);
 export const goToHome =
   () =>
   (dispatch, getState, { history }) => {
@@ -37,11 +38,11 @@ export default function posts(state = initialState, action) {
     case GET_POSTS:
     case GET_POSTS_SUCCESS:
     case GET_POSTS_ERROR:
-      return handleAsyncActions(GET_POSTS, "posts")(state, action);
+      return handleAsyncActions(GET_POSTS, "posts", true)(state, action);
     case GET_POST:
     case GET_POST_SUCCESS:
     case GET_POST_ERROR:
-      return handleAsyncActions(GET_POST, "post")(state, action);
+      return handleAsyncActionsById(GET_POST, "post", true)(state, action);
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import { createStore, applyMiddleware } from "redux";
 import promiseMiddleware from "redux-promise";
 import ReduxThunk from "redux-thunk";
 import rootReducer from "./redux/reducer";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const store = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 

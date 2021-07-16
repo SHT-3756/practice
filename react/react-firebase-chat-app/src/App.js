@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import "./App.css";
 import { Switch, Route, useHistory } from "react-router-dom";
 import ChatPage from "./components/ChatPage/ChatPage";
@@ -26,7 +25,7 @@ function App() {
         history.push("/login");
       }
     });
-  }, []);
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;

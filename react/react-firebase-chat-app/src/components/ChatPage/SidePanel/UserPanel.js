@@ -3,10 +3,13 @@ import { IoIosChatboxes } from "react-icons/io";
 import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
 import { useSelector } from "react-redux";
+import firebase from "../../../firebase";
 
 function UserPanel() {
   const user = useSelector((state) => state.user.currentUser);
-
+  const handleLogout = () => {
+    firebase.auth().signOut();
+  };
   return (
     <div>
       {/* logo */}
@@ -22,16 +25,15 @@ function UserPanel() {
         />
         <Dropdown>
           <Dropdown.Toggle
-            variant="success"
-            id="dropdown-basic"
             style={{ background: "transparent", border: "0px" }}
+            id="dropdown-basic"
           >
             {user.displayName}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item href="#">프로필 사진 변경</Dropdown.Item>
-            <Dropdown.Item href="#">로그아웃</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>

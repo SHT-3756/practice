@@ -6,7 +6,7 @@ import RegisterPage from "./components/RegisterPage/RegisterPage";
 import { useEffect } from "react";
 import firebase from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "./redux/action/user_action";
+import { setUser, clearUser } from "./redux/action/user_action";
 
 function App() {
   const history = useHistory();
@@ -23,6 +23,7 @@ function App() {
       } else {
         //로그인 안된 상태
         history.push("/login");
+        dispatch(clearUser());
       }
     });
   });

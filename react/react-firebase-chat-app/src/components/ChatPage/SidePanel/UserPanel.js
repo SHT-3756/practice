@@ -65,7 +65,6 @@ function UserPanel() {
           style={{ width: "30px", height: "30px", marginTop: "3px" }}
           roundedCircle
         />
-
         <Dropdown>
           <Dropdown.Toggle
             style={{ background: "transparent", border: "0px" }}

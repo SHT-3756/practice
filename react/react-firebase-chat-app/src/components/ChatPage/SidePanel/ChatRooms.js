@@ -1,124 +1,113 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { FaRegSmileWink } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { connect } from "react-redux";
-import firebase from "../../../firebase";
-export class ChatRooms extends Component {
-  state = {
-    show: false,
-    name: "",
-    description: "",
-    chatRoomsRef: firebase.database().ref("chatRooms"),
-  };
+import { useSelector } from "react-redux";
+import firebase from "firebase";
 
-  handleClose = () => this.setState({ show: false });
-  handleShow = () => this.setState({ show: true });
+function ChatRooms() {
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
-  handleSubmit = (e) => {
+  const chatRoomsRef = firebase.database().ref("chatRooms");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  //리덕스에 있는 유저정보를 담았다.
+  const user = useSelector((state) => state.user.currentUser);
+
+  // 저장 버튼, 버튼을 누르면 제목, 설명, 유저정보가 파이어베이스에 저장되어야한다.
+  const handleSubmit = (e) => {
+    // 새로고침 방지
     e.preventDefault();
-
-    const { name, description } = this.state;
-
-    if (this.isFormValid(name, description)) {
-      this.addChatRoom();
+    //제목
+    if (isFormValid(name, description)) {
+      addChatRoom();
     }
   };
+  const isFormValid = (name, description) => name && description;
 
-  addChatRoom = async () => {
-    const key = this.state.chatRoomsRef.push().key;
-    const { name, description } = this.state;
-    const { user } = this.props;
+  const addChatRoom = async () => {
+    //채팅방을 추가하는 기능
+    const key = chatRoomsRef.push().key;
     const newChatRoom = {
       id: key,
       name: name,
       description: description,
-      createdBy: {
+      createBy: {
         name: user.displayName,
         image: user.photoURL,
       },
     };
-
     try {
-      await this.state.chatRoomsRef.child(key).update(newChatRoom);
-      this.setState({
-        name: "",
-        description: "",
-        show: false,
-      });
+      await chatRoomsRef
+        .child(key)
+        .update(newChatRoom)
+        .then(setName(""), setDescription(""), setShow(false));
     } catch (error) {
       alert(error);
     }
   };
 
-  isFormValid = (name, description) => name && description;
-
-  render() {
-    return (
-      <div>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <FaRegSmileWink style={{ marginRight: 3 }} />
-          CHAT ROOMS
-          <FaPlus
-            onClick={this.handleShow}
-            style={{ position: "absolute", right: 0, cursor: "pointer" }}
-          />
-        </div>
-        {/* modal */}
-
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>채팅방 만들기</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Group controlId="formBasicEmail">
-                <Form.Label>방 이름</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="방 이름을 입력하세요."
-                  onChange={(e) => this.setState({ name: e.target.value })}
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>방 설명</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="방 설명을 입력하세요."
-                  onChange={(e) =>
-                    this.setState({ description: e.target.value })
-                  }
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              닫기
-            </Button>
-            <Button variant="primary" onClick={this.handleSubmit}>
-              방 생성
-            </Button>
-          </Modal.Footer>
-        </Modal>
+  return (
+    <div>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <FaRegSmileWink style={{ marginRight: 3 }} />
+        CHAT ROOMS
+        <FaPlus
+          onClick={handleShow}
+          style={{ position: "absolute", right: 0, cursor: "pointer" }}
+        />
       </div>
-    );
-  }
+      {/* modal */}
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>채팅방 만들기</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>방 이름</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="방 이름을 입력하세요."
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>방 설명</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="방 설명을 입력하세요."
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            닫기
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            방 생성
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user.currentUser,
-  };
-};
-export default connect(mapStateToProps)(ChatRooms);
+export default ChatRooms;

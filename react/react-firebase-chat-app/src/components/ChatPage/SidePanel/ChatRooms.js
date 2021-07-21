@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaRegSmileWink } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
@@ -13,6 +13,21 @@ function ChatRooms() {
   const [description, setDescription] = useState("");
 
   const chatRoomsRef = firebase.database().ref("chatRooms");
+  const [chatRooms, setChatRooms] = useState([]);
+
+  const AddChatRoomsListeners = () => {
+    const chatRoomsArray = [];
+
+    chatRoomsRef.on("child_added", (DataSnapshot) => {
+      chatRoomsArray.push(DataSnapshot.val());
+      // console.log("chatRoomsArray", chatRoomsArray);
+      setChatRooms(chatRoomsArray);
+    });
+  };
+
+  useEffect(() => {
+    AddChatRoomsListeners();
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,6 +45,10 @@ function ChatRooms() {
     }
   };
   const isFormValid = (name, description) => name && description;
+
+  const renderChatRooms = (chatRooms) =>
+    chatRooms.length > 0 &&
+    chatRooms.map((room) => <li key={room.id}>#{room.name}</li>);
 
   const addChatRoom = async () => {
     //채팅방을 추가하는 기능
@@ -70,6 +89,11 @@ function ChatRooms() {
           style={{ position: "absolute", right: 0, cursor: "pointer" }}
         />
       </div>
+
+      <ul style={{ listStyleType: "none", padding: 0 }}>
+        {renderChatRooms(chatRooms)}
+      </ul>
+
       {/* modal */}
 
       <Modal show={show} onHide={handleClose}>

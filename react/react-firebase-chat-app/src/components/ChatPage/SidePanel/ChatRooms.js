@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useSelector } from "react-redux";
 import firebase from "firebase";
+import { setCurrentChatRoom } from "../../../redux/action/chatRoom_action";
+import { useDispatch } from "react-redux";
 
 function ChatRooms() {
   const [show, setShow] = useState(false);
@@ -14,6 +16,7 @@ function ChatRooms() {
 
   const chatRoomsRef = firebase.database().ref("chatRooms");
   const [chatRooms, setChatRooms] = useState([]);
+  const dispatch = useDispatch();
 
   const AddChatRoomsListeners = () => {
     const chatRoomsArray = [];
@@ -46,9 +49,17 @@ function ChatRooms() {
   };
   const isFormValid = (name, description) => name && description;
 
+  const changeChatRoom = (room) => {
+    dispatch(setCurrentChatRoom(room));
+  };
+
   const renderChatRooms = (chatRooms) =>
     chatRooms.length > 0 &&
-    chatRooms.map((room) => <li key={room.id}>#{room.name}</li>);
+    chatRooms.map((room) => (
+      <li key={room.id} onClick={() => changeChatRoom(room)}>
+        #{room.name}
+      </li>
+    ));
 
   const addChatRoom = async () => {
     //채팅방을 추가하는 기능

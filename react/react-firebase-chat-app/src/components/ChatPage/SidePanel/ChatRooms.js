@@ -17,6 +17,17 @@ function ChatRooms() {
   const chatRoomsRef = firebase.database().ref("chatRooms");
   const [chatRooms, setChatRooms] = useState([]);
   const dispatch = useDispatch();
+  // const [firstLoad, setFirstLoad] = useState(true);
+  const [activeChatRoomId, setActiveChatRoomId] = useState("");
+
+  // const setFirstChatRoom = () => {
+  //   const firstChatRoom = chatRooms[0];
+  //   if (firstLoad && chatRooms.length > 0) {
+  //     dispatch(setCurrentChatRoom(firstChatRoom));
+  //     setActiveChatRoomId(firstChatRoom.id);
+  //   }
+  //   setFirstLoad(false);
+  // };
 
   const AddChatRoomsListeners = () => {
     const chatRoomsArray = [];
@@ -25,11 +36,20 @@ function ChatRooms() {
       chatRoomsArray.push(DataSnapshot.val());
       // console.log("chatRoomsArray", chatRoomsArray);
       setChatRooms(chatRoomsArray);
+
+      // 함수형으로 이런식으로 해야하는데...
+      // this.setState({ chatRooms: chatRoomsArray }, () =>
+      //   this.setFirstChatRoom()
+      // );
     });
   };
+  // useEffect(() => {
+  //   console.log("ChatRooms", chatRooms);
+  // }, [chatRooms]);
 
   useEffect(() => {
     AddChatRoomsListeners();
+    // console.log("chatRooms1", chatRooms);
   }, []);
 
   const handleClose = () => setShow(false);
@@ -51,12 +71,17 @@ function ChatRooms() {
 
   const changeChatRoom = (room) => {
     dispatch(setCurrentChatRoom(room));
+    setActiveChatRoomId(room.id);
   };
 
   const renderChatRooms = (chatRooms) =>
     chatRooms.length > 0 &&
     chatRooms.map((room) => (
-      <li key={room.id} onClick={() => changeChatRoom(room)}>
+      <li
+        key={room.id}
+        style={{ backgroundColor: room.id === activeChatRoomId && "#ffffff45" }}
+        onClick={() => changeChatRoom(room)}
+      >
         #{room.name}
       </li>
     ));

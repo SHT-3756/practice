@@ -17,8 +17,13 @@ export class ChatRooms extends Component {
     firstLoad: true,
     activeChatRoomId: "",
   };
+
   componentDidMount() {
     this.AddChatRoomsListeners();
+  }
+
+  componentWillUnmount() {
+    this.state.chatRooms.off();
   }
   setFirstChatRoom = () => {
     const firstChatRoom = this.state.chatRooms[0];
@@ -28,6 +33,7 @@ export class ChatRooms extends Component {
     }
     this.setState({ firstLoad: false });
   };
+
   AddChatRoomsListeners = () => {
     let chatRoomsArray = [];
 
@@ -39,6 +45,7 @@ export class ChatRooms extends Component {
       );
     });
   };
+
   handleClose = () => this.setState({ show: false });
   handleShow = () => this.setState({ show: true });
 
@@ -77,11 +84,14 @@ export class ChatRooms extends Component {
       alert(error);
     }
   };
+
   changeChatRoom = (room) => {
     this.props.dispatch(setCurrentChatRoom(room));
     this.setState({ activeChatRoomId: room.id });
   };
+
   isFormValid = (name, description) => name && description;
+
   renderChatRooms = (chatRooms) =>
     chatRooms.length > 0 &&
     chatRooms.map((room) => (
@@ -96,6 +106,7 @@ export class ChatRooms extends Component {
         # {room.name}
       </li>
     ));
+
   render() {
     return (
       <div>

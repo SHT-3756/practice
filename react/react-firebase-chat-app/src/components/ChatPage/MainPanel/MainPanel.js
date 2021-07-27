@@ -61,5 +61,10 @@ export class MainPanel extends Component {
     );
   }
 }
-
-export default MainPanel;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.currentUser,
+    chatRoom: state.chatRoom.currentChatRoom,
+  };
+};
+export default connect(mapStateToProps)(MainPanel);

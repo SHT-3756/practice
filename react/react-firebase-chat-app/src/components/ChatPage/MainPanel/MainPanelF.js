@@ -18,7 +18,8 @@ function MainPanel() {
     if (chatRoom) {
       addMessagesListeners(chatRoom.id);
     }
-  });
+  }, []);
+
   const addMessagesListeners = (chatRoomId) => {
     let messageArray = [];
     messagesRef.child(chatRoomId).on("child_added", (DataSnapshot) => {
@@ -34,6 +35,7 @@ function MainPanel() {
         <Message key={message.timestamp} message={message} user={user} />
       ));
   };
+
   return (
     <div style={{ padding: "2rem 2rem 0 2rem" }}>
       <MessageHeader />
@@ -49,7 +51,6 @@ function MainPanel() {
         }}
       >
         {renderMessage(messages)}
-        <Message />
       </div>
       <MessageForm />
     </div>

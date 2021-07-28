@@ -11,11 +11,13 @@ export class MainPanel extends Component {
     messagesRef: firebase.database().ref("messages"),
     messagesLoading: true,
   };
+
   componentDidMount() {
     const { chatRoom } = this.props;
     if (chatRoom) {
       this.addMessagesListeners(chatRoom.id);
     }
+    console.log("messagesRef", this.state.messagesRef);
   }
 
   addMessagesListeners = (chatRoomId) => {
@@ -54,7 +56,6 @@ export class MainPanel extends Component {
           }}
         >
           {this.renderMessage(messages)}
-          <Message />
         </div>
         <MessageForm />
       </div>

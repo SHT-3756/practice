@@ -1,13 +1,11 @@
 // import Login from "./components/Login";
-import "./App.css";
-import Main from "./components/Main";
 
+import Main from "./components/Main";
+import Login from "./components/Login";
+
+const code = new URLSearchParams(window.location.search).get("code");
 function App() {
-  return (
-    <div className="App">
-      <Main />
-    </div>
-  );
+  return code ? <Main code={code} /> : <Login />;
 }
 
 export default App;

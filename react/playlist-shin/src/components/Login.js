@@ -4,6 +4,7 @@ const AUTH_URL =
 export default function Login() {
   return (
     <div>
+      <h1>로그인을 먼저해야합니다.</h1>
       <a className="btn" href={AUTH_URL}>
         로그인
       </a>

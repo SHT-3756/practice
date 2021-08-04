@@ -1,13 +1,7 @@
 import React from "react";
-import Login from "./Login";
+import useAuth from "./useAuth";
 
-const code = new URLSearchParams(window.location.search).get("code");
-
-export default function Main() {
-  return (
-    <div>
-      <Login />
-      code? <Main code={code} />:<Login />;
-    </div>
-  );
+export default function Main({ code }) {
+  const accessToken = useAuth(code);
+  return <div>{code}</div>;
 }

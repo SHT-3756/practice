@@ -19,7 +19,7 @@ export default function useAuth(code) {
         window.history.pushState({}, null, "/");
       })
       .catch(() => {
-        window.location = "/";
+        // window.location = "/";
       });
   }, [code]);
 

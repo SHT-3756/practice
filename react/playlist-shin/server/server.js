@@ -3,6 +3,7 @@ const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const LyricsFinder = require("lyrics-finder");
 
 const app = express();
 app.use(cors());
@@ -53,6 +54,13 @@ app.post("/refresh", (req, res) => {
       console.log(err);
       res.sendStatus(400);
     });
+});
+
+app.get("/lyrics", async (req, res) => {
+  const lyrics =
+    (await LyricsFinder(req.query.artist, req.query.track)) ||
+    "가사가 없습니다.";
+  res.json({ lyrics });
 });
 
 app.listen(3001);

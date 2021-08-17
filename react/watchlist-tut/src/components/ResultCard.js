@@ -2,7 +2,13 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 export const ResultCard = ({ movie }) => {
-  const { addMovieToWatchlist } = useContext(GlobalContext);
+  // context를 사용해 전역으로 상태관리해준다.
+  const { addMovieToWatchlist, watchlist } = useContext(GlobalContext);
+
+  //배열에 이미 들어가있는 영화가 있는지 비교하기위한 변수
+  let storedMovie = watchlist.find((a) => a.id === movie.id);
+  //배열에 영화가 있으면 disabled 를 true, 없으면 false반환
+  const watchlistDisabled = storedMovie ? true : false;
   return (
     <div className="result-card">
       <div className="poster-wrapper">
@@ -25,7 +31,11 @@ export const ResultCard = ({ movie }) => {
           </h4>
         </div>
         <div className="controls">
-          <button className="btn" onClick={() => addMovieToWatchlist(movie)}>
+          <button
+            className="btn"
+            onClick={() => addMovieToWatchlist(movie)}
+            disabled={watchlistDisabled}
+          >
             등록
           </button>
         </div>

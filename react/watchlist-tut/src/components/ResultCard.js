@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 
 export const ResultCard = ({ movie }) => {
+  const { addMovieToWatchlist } = useContext(GlobalContext);
   return (
     <div className="result-card">
       <div className="poster-wrapper">
@@ -23,7 +25,9 @@ export const ResultCard = ({ movie }) => {
           </h4>
         </div>
         <div className="controls">
-          <button className="btn">등록</button>
+          <button className="btn" onClick={() => addMovieToWatchlist(movie)}>
+            등록
+          </button>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useEffect } from "react";
 
 // initialState
 const initialState = {
@@ -12,6 +12,11 @@ export const GlobalContext = createContext(initialState);
 // provide components
 export const GlobalProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  //JSON.stringify(): 문자열이 아닌 배열이 있으므로 사용해준다. 배열자체를 문자열로 변환한다.
+  useEffect(() => {
+    window.localStorage.getItem("watchlist", JSON.stringify(state.watchlist));
+  }, [state]);
 
   // action
   const addMovieToWatchlist = (movie) => {

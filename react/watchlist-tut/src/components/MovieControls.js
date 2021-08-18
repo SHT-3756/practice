@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaEye, FaTimes } from "react-icons/fa";
+import { GlobalContext } from "../context/GlobalState";
 
 export const MovieControls = ({ movie, type }) => {
+  const { removeMovieFromWatchlist } = useContext(GlobalContext);
+
   return (
     <div className="inner-card-controls">
       {type === "watchlist" && (
@@ -9,7 +12,10 @@ export const MovieControls = ({ movie, type }) => {
           <button className="ctrl-btn">
             <FaEye />
           </button>
-          <button className="ctrl-btn">
+          <button
+            className="ctrl-btn"
+            onClick={() => removeMovieFromWatchlist(movie.id)}
+          >
             <FaTimes />
           </button>
         </>

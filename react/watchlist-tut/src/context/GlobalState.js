@@ -36,6 +36,14 @@ export const GlobalProvider = (props) => {
     dispatch({ type: "ADD_MOVIE_TO_WATCHED", payload: movie });
   };
 
+  //move to watchlist
+  const moveToWatchlist = (movie) => {
+    dispatch({ type: "MOVE_TO_WATCHLIST", payload: movie });
+  };
+  //remove from watched
+  const removeFromWatched = (id) => {
+    dispatch({ type: "REMOVE_FROM_WATCHED", payload: id });
+  };
   return (
     <GlobalContext.Provider
       value={{
@@ -44,6 +52,8 @@ export const GlobalProvider = (props) => {
         addMovieToWatchlist,
         removeMovieFromWatchlist,
         addMovieToWatched,
+        moveToWatchlist,
+        removeFromWatched,
       }}
     >
       {props.children}
@@ -70,6 +80,19 @@ export default function reducer(state, action) {
           (movie) => movie.id !== action.payload.id
         ),
         watched: [action.payload, ...state.watched],
+      };
+    case "MOVE_TO_WATCHLIST":
+      return {
+        ...state,
+        watched: state.watched.filter(
+          (movie) => movie.id !== action.payload.id
+        ),
+        watchlist: [action.payload, ...state.watchlist],
+      };
+    case "REMOVE_FROM_WATCHED":
+      return {
+        ...state,
+        watched: state.watched.filter((movie) => movie.id !== action.payload),
       };
     default:
       return state;

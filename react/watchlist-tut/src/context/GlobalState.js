@@ -15,7 +15,7 @@ export const GlobalProvider = (props) => {
 
   //JSON.stringify(): 문자열이 아닌 배열이 있으므로 사용해준다. 배열자체를 문자열로 변환한다.
   useEffect(() => {
-    window.localStorage.getItem("watchlist", JSON.stringify(state.watchlist));
+    localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
   }, [state]);
 
   // action

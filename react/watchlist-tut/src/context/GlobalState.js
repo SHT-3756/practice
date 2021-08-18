@@ -2,8 +2,12 @@ import React, { createContext, useReducer, useEffect } from "react";
 
 // initialState
 const initialState = {
-  watchlist: [],
-  watched: [],
+  watchlist: localStorage.getItem("watchlist")
+    ? JSON.parse(localStorage.getItem("watchlist"))
+    : [],
+  watched: localStorage.getItem("watched")
+    ? JSON.parse(localStorage.getItem("watched"))
+    : [],
 };
 
 // create context
@@ -16,6 +20,7 @@ export const GlobalProvider = (props) => {
   //JSON.stringify(): 문자열이 아닌 배열이 있으므로 사용해준다. 배열자체를 문자열로 변환한다.
   useEffect(() => {
     localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
+    localStorage.setItem("watched", JSON.stringify(state.watched));
   }, [state]);
 
   // action

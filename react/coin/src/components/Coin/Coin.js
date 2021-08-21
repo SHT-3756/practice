@@ -12,8 +12,12 @@ export const Coin = ({
   priceChange,
   marketcap,
 }) => {
-  const mylist = () => {};
-  const { addMylist } = useContext(GlobalContext);
+  const { addMylist, mylist } = useContext(GlobalContext);
+
+  let storedCoin = mylist.find((o) => o.symbol === symbol);
+
+  const mylistDisabled = storedCoin ? true : false;
+
   return (
     <div className="coin-container">
       <div className="coin-row">
@@ -37,6 +41,7 @@ export const Coin = ({
       </div>
       {/* <CoinControls coin={coin} /> */}
       <button
+        disabled={mylistDisabled}
         onClick={() =>
           addMylist({
             name,

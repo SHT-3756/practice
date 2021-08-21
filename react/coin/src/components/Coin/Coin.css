@@ -3,7 +3,13 @@
   justify-content: center;
 }
 .coin-container:hover {
-  background-color: gray;
+  cursor: pointer;
+  background-image: linear-gradient(
+    -225deg,
+    #bfe9ff 0%,
+    #ff6e7f 48%,
+    #7918f2 100%
+  );
 }
 
 .coin-row {

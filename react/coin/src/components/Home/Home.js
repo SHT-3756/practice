@@ -16,7 +16,7 @@ export const Home = () => {
         setCoins(res.data);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const searchHandle = (e) => {
     setSearch(e.target.value);
@@ -35,12 +35,12 @@ export const Home = () => {
           onChange={searchHandle}
         />
       </div>
-   
-      {filteredCoins.map((coin) => {
+
+      {filteredCoins.map((coin, index) => {
         return (
-          <div>
+          <div key={index}>
             <Coin
-              key={coin.id}
+              // coins={coin}
               name={coin.name}
               image={coin.image}
               symbol={coin.symbol}
@@ -52,7 +52,6 @@ export const Home = () => {
           </div>
         );
       })}
-      
     </div>
   );
 };

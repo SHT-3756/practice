@@ -21,8 +21,14 @@ export const GlobalProvider = (props) => {
   const addMylist = (coin) => {
     dispatch({ type: "ADD_MYLIST", payload: coin });
   };
+
+  const removeMylist = (id) => {
+    dispatch({ type: "REMOVE_MYLIST", payload: id });
+  };
   return (
-    <GlobalContext.Provider value={{ mylist: state.mylist, addMylist }}>
+    <GlobalContext.Provider
+      value={{ mylist: state.mylist, addMylist, removeMylist }}
+    >
       {props.children}
     </GlobalContext.Provider>
   );
@@ -34,7 +40,11 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     case "ADD_MYLIST":
       return { ...state, mylist: [action.payload, ...state.mylist] };
-
+    case "REMOVE_MYLIST":
+      return {
+        ...state,
+        mylist: state.mylist.filter((coin) => coin.coin.id !== action.payload),
+      };
     default:
       return state;
   }

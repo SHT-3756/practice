@@ -3,7 +3,7 @@ import axios from "axios";
 import { Coin } from "../Coin/Coin";
 import "./Home.css";
 export const Home = () => {
-  const [coins, setCoins] = useState([]);
+  const [coin, setCoin] = useState([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -12,8 +12,8 @@ export const Home = () => {
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=krw&order=market_cap_desc&per_page=100&page=1&sparkline=false"
       )
       .then((res) => {
-        // console.log(res.data);
-        setCoins(res.data);
+        console.log(res.data);
+        setCoin(res.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -22,7 +22,7 @@ export const Home = () => {
     setSearch(e.target.value);
     e.preventDefault();
   };
-  const filteredCoins = coins.filter((coin) =>
+  const filteredCoins = coin.filter((coin) =>
     coin.name.toLowerCase().includes(search.toLowerCase())
   );
   return (
@@ -40,14 +40,14 @@ export const Home = () => {
         return (
           <div key={index}>
             <Coin
-              // coins={coin}
-              name={coin.name}
-              image={coin.image}
-              symbol={coin.symbol}
-              marketcap={coin.market_cap}
-              price={coin.current_price}
-              priceChange={coin.price_change_percentage_24h}
-              volume={coin.total_volume}
+              coin={coin}
+              // name={coin.name}
+              // image={coin.image}
+              // symbol={coin.symbol}
+              // marketcap={coin.market_cap}
+              // price={coin.current_price}
+              // priceChange={coin.price_change_percentage_24h}
+              // volume={coin.total_volume}
             />
           </div>
         );

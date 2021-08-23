@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
-// import CoinControls from "./CoinControls";
-import { GlobalContext } from "../../context/GlobalContext";
+import React from "react";
+import { CoinControls } from "./CoinControls";
 
 export const CoinCard = ({ coin }) => {
-  const { removeMylist } = useContext(GlobalContext);
   return (
-    <div>
+    <div className="mylist-card">
+      <div className="overlay"></div>
       <img src={`${coin.coin.image}`} alt={`${coin.coin.name}`} />
-      <h1>1. {coin.coin.symbol}</h1>
+      <h3>{coin.coin.name}</h3>
+      <CoinControls coin={coin} />
+      {/* // <img src={`${coin.coin.image}`} alt={`${coin.coin.name}`} /> */}
+      {/* <h1>1. {coin.coin.symbol}</h1>
       <h1>2. {coin.coin.current_price}</h1>
       <h1>3. {coin.coin.name}</h1>
       <h1>4. {coin.coin.market_cap}</h1>
@@ -31,11 +33,10 @@ export const CoinCard = ({ coin }) => {
       <h1>22. {coin.coin.atl_date}</h1>
       <h1>23. {coin.coin.times}</h1>
       <h1>24. {coin.coin.currency}</h1>
-      <h1>25. {coin.coin.percentage}</h1>
-      <h1>26. {coin.coin.last_updated}</h1>
+      <h1>25. {coin.coin.percentage}</h1> */}
+      {/* <h1>26. {coin.coin.last_updated}</h1> */}
 
-      <button onClick={() => removeMylist(coin.id)}>삭제</button>
-      {/* <CoinControls /> */}
+      {/* <button onClick={() => removeMylist(coin.id)}>삭제</button> */}
     </div>
   );
 };

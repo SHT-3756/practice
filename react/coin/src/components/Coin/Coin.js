@@ -1,18 +1,8 @@
 import React, { useContext } from "react";
 import "./Coin.css";
-// import { CoinControls } from "./CoinControls";
 import { GlobalContext } from "../../context/GlobalContext";
 
-export const Coin = ({
-  // name,
-  // image,
-  // symbol,
-  // price,
-  // volume,
-  // priceChange,
-  // marketcap,
-  coin,
-}) => {
+export const Coin = ({ coin }) => {
   const { addMylist, mylist, removeMylist } = useContext(GlobalContext);
 
   let storedCoin = mylist.find((o) => o.coin.id === coin.id);
@@ -45,26 +35,24 @@ export const Coin = ({
           </p>
         </div>
       </div>
-      {/* <CoinControls coin={coin} /> */}
       <button
+        className="ctrl-btn"
         disabled={mylistDisabled}
         onClick={() =>
           addMylist({
             coin,
-            // name,
-            // image,
-            // symbol,
-            // price,
-            // volume,
-            // priceChange,
-            // marketcap,
           })
         }
       >
-        관심
+        Add
       </button>
-      <button disabled={removeDisabled} onClick={() => removeMylist(coin.id)}>
-        삭제
+
+      <button
+        className="ctrl-btn"
+        disabled={removeDisabled}
+        onClick={() => removeMylist(coin.id)}
+      >
+        Delete
       </button>
     </div>
   );

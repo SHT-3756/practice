@@ -4,10 +4,11 @@ import { CoinControls } from "./CoinControls";
 export const CoinCard = ({ coin }) => {
   return (
     <div className="mylist-card">
-      <div className="overlay"></div>
-      <img src={`${coin.coin.image}`} alt={`${coin.coin.name}`} />
-      <h3>{coin.coin.name}</h3>
-      <CoinControls coin={coin} />
+      <div className="overlay">
+        <img src={`${coin.coin.image}`} alt={`${coin.coin.name}`} />
+        <h3>{coin.coin.name}</h3>
+        <CoinControls coin={coin} />
+      </div>
       {/* // <img src={`${coin.coin.image}`} alt={`${coin.coin.name}`} /> */}
       {/* <h1>1. {coin.coin.symbol}</h1>
       <h1>2. {coin.coin.current_price}</h1>

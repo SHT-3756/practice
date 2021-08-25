@@ -10,6 +10,7 @@ export const Coin = ({ coin }) => {
   const mylistDisabled = storedCoin ? true : false;
 
   const removeDisabled = storedCoin ? false : true;
+
   return (
     <div className="coin-container">
       <div className="coin-row">

@@ -39,16 +39,7 @@ export const Home = () => {
       {filteredCoins.map((coin, index) => {
         return (
           <div key={index}>
-            <Coin
-              coin={coin}
-              // name={coin.name}
-              // image={coin.image}
-              // symbol={coin.symbol}
-              // marketcap={coin.market_cap}
-              // price={coin.current_price}
-              // priceChange={coin.price_change_percentage_24h}
-              // volume={coin.total_volume}
-            />
+            <Coin coin={coin} />
           </div>
         );
       })}

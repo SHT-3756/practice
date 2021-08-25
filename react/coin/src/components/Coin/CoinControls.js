@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
 import { BsFillTrashFill } from "react-icons/bs";
 import { ModalFunction } from "../Modal/ModalFunction";
@@ -16,12 +16,6 @@ export const CoinControls = ({ coin }) => {
           <BsFillTrashFill />
         </button>
       </div>
-
-      {/* <Modal open={modalOpen} close={closeModal}>
-        <h1>2. {coin.coin.current_price}</h1>
-        <h1>3. {coin.coin.name}</h1>
-        <h1>4. {coin.coin.market_cap}</h1>
-      </Modal> */}
     </>
   );
 };

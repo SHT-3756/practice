@@ -1,9 +1,9 @@
 import React from "react";
 
 function example() {
-    const getDerivedStateFromProps(){
-        console.log('getDerivedStateFromProps');
-    }
+  const getDerivedStateFromProps = () => {
+    console.log("getDerivedStateFromProps");
+  };
   return <div></div>;
 }
 

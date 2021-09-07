@@ -22,7 +22,7 @@ Mylist - 페이지
 ![image2](https://github.com/SHT-3756/practice/blob/master/react/coin/src/Image/image2.PNG)
 Mylist - 자세히보기
 ![image3](https://github.com/SHT-3756/practice/blob/master/react/coin/src/Image/image3.PNG)
-Mylist - 마우스 호버시 버튼 (자세히보기, 삭제)
-![image4](https://github.com/SHT-3756/practice/blob/master/react/coin/src/Image/image4.PNG)
-Home - 마우스 호버시 그라데이션 색
+Mylist - 마우스 호버시 버튼 (자세히보기, 삭제)  
+![image4](https://github.com/SHT-3756/practice/blob/master/react/coin/src/Image/image4.PNG)  
+Home - 마우스 호버시 그라데이션 색  
 ![image5](https://github.com/SHT-3756/practice/blob/master/react/coin/src/Image/image5.PNG)
